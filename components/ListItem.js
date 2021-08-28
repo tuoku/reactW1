@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 class ListItem extends React.Component {
   render() {
+    console.log('ITEM: ' + this.props.singleMedia);
     return (
       <TouchableOpacity
         style={{
@@ -17,7 +18,11 @@ class ListItem extends React.Component {
       >
         <View>
           <Image
-            source={{uri: this.props.singleMedia.thumbnails.w160}}
+            source={{
+              uri:
+                'https://media.mw.metropolia.fi/wbma/uploads/' +
+                this.props.singleMedia.thumbnails?.w160,
+            }}
             style={{
               width: 200,
               height: 300,

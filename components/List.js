@@ -3,8 +3,7 @@ import {FlatList} from 'react-native';
 import ListItem from './ListItem';
 
 const List = () => {
-  const url =
-    'https://raw.githubusercontent.com/mattpe/wbma/master/docs/assets/test.json';
+  const url = 'https://media.mw.metropolia.fi/wbma/media/';
   const [mediaArray, setData] = useState([]);
 
   useEffect(() => {
@@ -12,8 +11,13 @@ const List = () => {
       try {
         const response = await fetch(url);
         const json = await response.json();
-        console.log(json);
-        setData(json);
+        const finals = json.map(async (i) => {
+          const res = await fetch(url + i.file_id);
+          const file = await res.json();
+          return file;
+        });
+        console.log('JSONNNNNN: ' + "");
+        setData(await Promise.all(finals));
       } catch (e) {
         console.log(e.message);
       }
