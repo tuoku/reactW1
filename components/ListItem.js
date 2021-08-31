@@ -7,11 +7,14 @@ class ListItem extends React.Component {
     console.log('ITEM: ' + this.props.singleMedia);
     return (
       <TouchableOpacity
+        onPress={() => {
+          this.props.navigation.navigate('Single', this.props.singleMedia);
+        }}
         style={{
           flexDirection: 'row',
-          backgroundColor: '#cccccc',
+          backgroundColor: '#242834',
           padding: 10,
-          marginBottom: 20,
+          marginTop: 20,
           alignItems: 'center',
           alignContent: 'center',
         }}
@@ -24,18 +27,27 @@ class ListItem extends React.Component {
                 this.props.singleMedia.thumbnails?.w160,
             }}
             style={{
-              width: 200,
-              height: 300,
+              borderBottomLeftRadius: 50,
+              borderRadius: 10,
+              width: 160,
+              height: 100,
               marginRight: 10,
               flex: 2,
             }}
           />
         </View>
         <View>
-          <Text style={{fontSize: 25, fontWeight: 'bold'}}>
+          <Text style={{fontSize: 16, fontWeight: 'bold', color: 'white'}}>
             {this.props.singleMedia.title}
           </Text>
-          <Text style={{flexWrap: 'wrap', width: 200, paddingRight: 10}}>
+          <Text
+            style={{
+              flexWrap: 'wrap',
+              width: 200,
+              paddingRight: 10,
+              color: 'grey',
+            }}
+          >
             {this.props.singleMedia.description}
           </Text>
         </View>
@@ -46,5 +58,8 @@ class ListItem extends React.Component {
 
 ListItem.propTypes = {
   singleMedia: PropTypes.object,
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
 };
 export default ListItem;

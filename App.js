@@ -1,14 +1,8 @@
 import React from 'react';
-import {SafeAreaView, StatusBar} from 'react-native';
-import List from '/home/tuomas/ReactProjects/MyApp/components/List.js';
+import Navigator from './navigators/Navigator';
 
 const App = () => {
-  return (
-    <SafeAreaView>
-      <List></List>
-      <StatusBar style="auto"></StatusBar>
-    </SafeAreaView>
-  );
+  return <Navigator></Navigator>;
 };
 
 export default App;
