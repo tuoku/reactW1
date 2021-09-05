@@ -6,6 +6,9 @@ import {NavigationContainer} from '@react-navigation/native';
 import Home from '../views/Home';
 import Profile from '../views/Profile';
 import Single from '../views/Single';
+import Login from '../views/Login';
+import {useContext} from 'react';
+import {MainContext} from '../contexts/MainContext';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -26,10 +29,19 @@ const TabScreen = () => {
 };
 
 const StackScreen = () => {
+  const [isLoggedIn] = useContext(MainContext);
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name="Home" component={TabScreen}></Stack.Screen>
-      <Stack.Screen name="Single" component={Single}></Stack.Screen>
+      {isLoggedIn ? (
+        <>
+          <Stack.Screen name="Home" component={TabScreen}></Stack.Screen>
+          <Stack.Screen name="Single" component={Single}></Stack.Screen>
+        </>
+      ) : (
+        <>
+          <Stack.Screen name="Login" component={Login}></Stack.Screen>
+        </>
+      )}
     </Stack.Navigator>
   );
 };
