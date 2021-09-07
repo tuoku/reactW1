@@ -30,4 +30,46 @@ const useMedia = () => {
   return {mediaArray};
 };
 
-export {useMedia};
+const useLogin = () => {
+  const login = async () => {
+    try {
+      const body = JSON.stringify({username: 'tuomas', password: 'kakka2000'});
+      console.log('body: ' + body);
+      const res = await fetch('https://media.mw.metropolia.fi/wbma/login/', {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: body,
+      });
+      console.log('raw: ' + res.toString);
+      const json = await res.json();
+      console.log('json:' + json.token);
+      return json.token;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  return login();
+};
+
+const register = async (inputs) => {
+  const fetchOptions = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(inputs),
+  };wpms21_LoginForm.js at forms · ilkkamtk_wpms21wbma/users/',
+      fetchOptions
+    );
+    const json = await response.json();
+    return json;
+  } catch (e) {
+    console.log('ApiHooks register', e.message);
+    return false;
+  }
+};
+
+export {useMedia, useLogin, register};
