@@ -1,15 +1,14 @@
+
 import {useState} from 'react';
 
-const useSignUpForm = (callback) => {
+const useLoginForm = (callback) => {
   const [inputs, setInputs] = useState({
     username: '',
     password: '',
-    email: '',
-    full_name: '',
   });
 
   const handleInputChange = (name, text) => {
-    console.log(name, text);
+    // console.log(name, text);
     setInputs((inputs) => {
       return {
         ...inputs,
@@ -23,4 +22,4 @@ const useSignUpForm = (callback) => {
   };
 };
 
-export default useSignUpForm;
+export default useLoginForm;
