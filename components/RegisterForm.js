@@ -3,12 +3,23 @@ import PropTypes from 'prop-types';
 import {View} from 'react-native';
 import useSignUpForm from '../hooks/RegisterHooks';
 import {Input, Button} from 'react-native-elements';
+import {useUser} from '../hooks/ApiHooks';
+import {Alert} from 'react-native';
 
 const RegisterForm = ({navigation}) => {
-  const {handleInputChange} = useSignUpForm();
+  const {inputs, errors, handleInputChange, handleOnEndEditing, checkUsername} =
+    useSignUpForm();
+  const {register} = useUser();
 
-  const doRegister = () => {
-    // TODO: add register() to useUser() hook in API hooks
+  const doRegister = async () => {
+    try {
+      const registerInfo = await register(inputs);
+      if (registerInfo) {
+        Alert.alert(registerInfo.message);
+      }
+    } catch (e) {
+      Alert.alert(e.message);
+    }
   };
 
   return (
@@ -17,24 +28,56 @@ const RegisterForm = ({navigation}) => {
         autoCapitalize="none"
         placeholder="username"
         onChangeText={(txt) => handleInputChange('username', txt)}
+        onEndEditing={(event) => {
+          console.log('onEndEditing value', event.nativeEvent.text);
+          checkUsername(event.nativeEvent.text);
+          handleOnEndEditing('username', event.nativeEvent.text);
+        }}
+        errorMessage={errors.username}
       />
       <Input
         autoCapitalize="none"
         placeholder="password"
         onChangeText={(txt) => handleInputChange('password', txt)}
         secureTextEntry={true}
+        onEndEditing={(event) => {
+          handleOnEndEditing('password', event.nativeEvent.text);
+        }}
+        errorMessage={errors.password}
+      />
+      <Input
+        autoCapitalize="none"
+        placeholder="confirm password"
+        onChangeText={(txt) => handleInputChange('confirmPassword', txt)}
+        secureTextEntry={true}
+        onEndEditing={(event) => {
+          handleOnEndEditing('confirmPassword', event.nativeEvent.text);
+        }}
+        errorMessage={errors.confirmPassword}
       />
       <Input
         autoCapitalize="none"
         placeholder="email"
         onChangeText={(txt) => handleInputChange('email', txt)}
+        onEndEditing={(event) => {
+          handleOnEndEditing('email', event.nativeEvent.text);
+        }}
+        errorMessage={errors.email}
       />
       <Input
         autoCapitalize="none"
         placeholder="full name"
         onChangeText={(txt) => handleInputChange('full_name', txt)}
+        onEndEditing={(event) => {
+          handleOnEndEditing('full_name', event.nativeEvent.text);
+        }}
+        errorMessage={errors.full_name}
       />
-      <Button title="Register!" onPress={doRegister} />
+      <Button
+        title="Register!"
+        onPress={doRegister}
+        disabled={errors.username || errors.password || errors.email}
+      />
     </View>
   );
 };
